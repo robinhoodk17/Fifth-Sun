@@ -21,8 +21,6 @@ public class MoveRocketWithVelocity : MonoBehaviour
     private bool braking = false;
     private Vector2 steeringValue;
     private float currentSpeed;
-
-    private bool firstUpdateHappened = false;
     //we are calling this from the rocketInitializer
     public void CustomStart(float accel, float brake, float rightLeftTurn, float upDownTurn, float topSpeed)
     {
@@ -34,18 +32,15 @@ public class MoveRocketWithVelocity : MonoBehaviour
         RightLeftTurnSpeed = rightLeftTurn;
         UpDownTurnSpeed = upDownTurn;
         TopForwardSpeed = topSpeed;
-        Debug.Log("we started");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        //Debug.Log(steeringValue);
         transform.Rotate(-steeringValue.y * UpDownTurnSpeed * Time.deltaTime, steeringValue.x * RightLeftTurnSpeed * Time.deltaTime, 0f, Space.Self);
         currentSpeed = rb.velocity.magnitude;
-        if(braking){currentSpeed -= brakeSpeed*Time.deltaTime; Debug.Log("braking");}
-        if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime; Debug.Log("accelerating");}
+        if(braking){currentSpeed -= brakeSpeed*Time.deltaTime;}
+        if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime;}
 
         rb.velocity = transform.forward * currentSpeed;
     }

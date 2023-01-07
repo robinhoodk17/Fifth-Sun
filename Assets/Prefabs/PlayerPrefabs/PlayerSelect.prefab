@@ -128,18 +128,6 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 082bf4ef-6167-40df-a3a0-c4308195acf2
-    m_ActionName: PilotingRight/Accelerate
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 271f62e1-d3c6-464f-95ce-9f3ac6628674
-    m_ActionName: PilotingRight/Brake
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 138c46b6-95d4-418b-acef-8373ffeecff6
-    m_ActionName: PilotingRight/Move
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -6855309699073941406}
         m_TargetAssemblyTypeName: Allcontrols, Assembly-CSharp
@@ -188,7 +176,19 @@ MonoBehaviour:
     m_ActionId: 645ac6f3-5d0c-42f6-8e83-b48a6d357c67
     m_ActionName: PilotingLeft/Move
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6855309699073941406}
+        m_TargetAssemblyTypeName: Allcontrols, Assembly-CSharp
+        m_MethodName: onShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f8857a6b-5338-4345-bbff-37563d352bea
     m_ActionName: TurretRight/Shoot
   - m_PersistentCalls:
@@ -223,6 +223,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b09c7822-030b-47b8-a854-467510c8b9c1
     m_ActionName: PlayerSelect/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 803d3de7-2a6e-4d02-88b0-21fb5396c8a7
+    m_ActionName: TurretRight/Aim[/XInputControllerWindows/rightStick,/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: PlayerSelect
@@ -299,3 +303,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPositionTransform: {fileID: 0}
+  HasPilot: 0

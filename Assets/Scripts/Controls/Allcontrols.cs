@@ -38,6 +38,7 @@ public class Allcontrols : MonoBehaviour
 
     private PlayerConfigurationManager playerManager;
     private bool isPilotingRocket = false;
+    private bool isShootingTurret = false;
     private GameObject controlledObject;
 
 #region MoveRocketWithVelocityVariables
@@ -46,6 +47,9 @@ public class Allcontrols : MonoBehaviour
     private bool braking = false;
     private Vector2 steeringValue;
     private float currentSpeed;
+#endregion
+#region ShootingTurretVariables
+    private bool shooting = false;
 #endregion
 
     private void Awake()
@@ -83,12 +87,19 @@ public class Allcontrols : MonoBehaviour
 
         if(isPilotingRocket)
         {
-            Debug.Log(steeringValue);
             rb.transform.Rotate(-steeringValue.y * UpDownTurnSpeed * Time.deltaTime, steeringValue.x * RightLeftTurnSpeed * Time.deltaTime, 0f, Space.Self);
             currentSpeed = rb.velocity.magnitude;
-            if(braking){currentSpeed -= brakeSpeed*Time.deltaTime; Debug.Log("braking");}
-            if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime; Debug.Log("accelerating");}
+            if(braking){currentSpeed -= brakeSpeed*Time.deltaTime;}
+            if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime;}
             rb.velocity = rb.transform.forward * currentSpeed;
+        }
+
+        if(isShootingTurret)
+        {
+            if(shooting)
+            {
+                Debug.Log("shooting");
+            }
         }
 
 
@@ -100,21 +111,20 @@ public class Allcontrols : MonoBehaviour
     {
             if(Pilot && pilotOrTurret)
             {
-
-                Debug.Log(rb);
                 //rb = controlledObject.GetComponent<Rigidbody>();
                 rb = controlledRigidBody;
                 currentSpeed = 0;
                 playerInput.actions.FindActionMap("PilotingLeft").Enable();
                 isPilotingRocket = true;
                 GameObject.FindGameObjectWithTag("AI").GetComponent<Piloting>().HasPilot = true;
-                Debug.Log("we initialized pilot");
                 return;
             }
 
             if(Turret && !pilotOrTurret)
             {
                 Debug.Log("we initialized turret");
+                playerInput.actions.FindActionMap("TurretRight").Enable();
+                isShootingTurret = true;
                 return;
             }
 
@@ -195,4 +205,23 @@ public class Allcontrols : MonoBehaviour
         steeringValue = where;
     }
     #endregion
+    public void onShoot(InputAction.CallbackContext context)
+    {
+        
+        if(context.started)
+        {
+            shooting = true;
+        }
+
+        if(context.performed)
+        {
+            shooting = true;
+        }
+
+        if(context.canceled)
+        {
+            shooting = false;
+        }
+
+    }
 }

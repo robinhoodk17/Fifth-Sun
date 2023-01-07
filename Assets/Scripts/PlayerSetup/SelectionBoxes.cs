@@ -31,6 +31,8 @@ public class SelectionBoxes : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         other.GetComponent<Allcontrols>().isInsideBox = false;
+        other.GetComponent<Allcontrols>().Pilot = false;
+        other.GetComponent<Allcontrols>().Turret = false;
         if (thisIsPilot)
         {
             playerManager.pilot = 0;
@@ -39,6 +41,7 @@ public class SelectionBoxes : MonoBehaviour
         if (thisIsGunner)
         {
             playerManager.gunner = 0;
+            
         }
 
     }
