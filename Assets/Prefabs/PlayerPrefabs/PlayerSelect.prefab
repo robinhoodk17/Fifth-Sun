@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 3398672653813888691}
   - component: {fileID: 3398672653813888688}
   - component: {fileID: -6855309699073941406}
-  - component: {fileID: -3384016056912428726}
   m_Layer: 0
   m_Name: PlayerSelect
   m_TagString: PlayerAssign
@@ -224,7 +223,19 @@ MonoBehaviour:
     m_ActionId: b09c7822-030b-47b8-a854-467510c8b9c1
     m_ActionName: PlayerSelect/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6855309699073941406}
+        m_TargetAssemblyTypeName: Allcontrols, Assembly-CSharp
+        m_MethodName: onAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 803d3de7-2a6e-4d02-88b0-21fb5396c8a7
     m_ActionName: TurretRight/Aim[/XInputControllerWindows/rightStick,/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 1
@@ -284,23 +295,10 @@ MonoBehaviour:
   RightLeftTurnSpeed: 70
   UpDownTurnSpeed: 70
   TopForwardSpeed: 1000
+  AimSesitivity: 10
   playerIndex: 0
   Turret: 0
   Pilot: 0
   isInsideBox: 0
   SelectionPhase: 1
   LoadedTrack: 0
---- !u!114 &-3384016056912428726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3398672653813893448}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e06dc2866c3635a43a82fb9bace7089c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPositionTransform: {fileID: 0}
-  HasPilot: 0

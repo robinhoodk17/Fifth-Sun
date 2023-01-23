@@ -43,6 +43,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             {
                 return;
             }
+            Debug.Log(player);
         }
         
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("PlayerAssign"))

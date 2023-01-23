@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class Allcontrols : MonoBehaviour
 {
@@ -17,39 +18,39 @@ public class Allcontrols : MonoBehaviour
     public float TopForwardSpeed;
 
     [Header ("Turret Stats")]
+    public float AimSesitivity;
 
-    [HideInInspector]
-    public int playerIndex;
+    
+    [HideInInspector] public int playerIndex;
     private CharacterController controller;
     private Vector3 playerVelocity;
-    [HideInInspector]
-    public bool Turret = false;
-    [HideInInspector]
-    public bool Pilot = false;
+    [HideInInspector] public bool Turret = false;
+    [HideInInspector] public bool Pilot = false;
     private PlayerInput playerInput;
     private bool clicking;
     private Vector2 movementInput = Vector2.zero;
-    [HideInInspector]
-    public bool isInsideBox = false;
-    [HideInInspector]
-    public bool SelectionPhase = true;
-    [HideInInspector]
-    public bool LoadedTrack = false;
+    [HideInInspector] public bool isInsideBox = false;
+    [HideInInspector] public bool SelectionPhase = true;
+    [HideInInspector] public bool LoadedTrack = false;
 
     private PlayerConfigurationManager playerManager;
     private bool isPilotingRocket = false;
     private bool isShootingTurret = false;
     private GameObject controlledObject;
 
-#region MoveRocketWithVelocityVariables
-    private Rigidbody rb;
+#region MoveRocketWithVelocityVariables    
     private bool accelerating = false;
+    private Rigidbody rb;
     private bool braking = false;
     private Vector2 steeringValue;
     private float currentSpeed;
 #endregion
 #region ShootingTurretVariables
     private bool shooting = false;
+    private Vector2 Aiming;
+    private GameObject turretbody;
+    private Transform turretCameraTransform;
+    [SerializeField] private float rotationSpeed = 8f;
 #endregion
 
     private void Awake()
@@ -92,27 +93,36 @@ public class Allcontrols : MonoBehaviour
             if(braking){currentSpeed -= brakeSpeed*Time.deltaTime;}
             if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime;}
             rb.velocity = rb.transform.forward * currentSpeed;
+            
         }
+    }
 
+    void LateUpdate()
+    {
         if(isShootingTurret)
         {
+
             if(shooting)
             {
                 Debug.Log("shooting");
             }
+            /*
+            Vector3 currentrotation = turretbody.transform.localRotation.ToEulerAngles();
+            turretbody.transform.localRotation = Quaternion.Euler(currentrotation + new Vector3(-Aiming.y * AimSesitivity * Time.deltaTime, -Aiming.x * AimSesitivity * Time.deltaTime, 0f));
+            */
+            Quaternion targetRotation = Quaternion.Euler(turretCameraTransform.eulerAngles.x, turretCameraTransform.eulerAngles.y, 0);
+            turretbody.transform.rotation = Quaternion.Lerp(turretbody.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
         }
 
-
-
     }
-
     //we call this method from the rocketInitializer script
-    public void InitializeTrackControls(Rigidbody controlledRigidBody, bool pilotOrTurret)
+    public void InitializeTrackControls(GameObject controlledObject, bool pilotOrTurret, CinemachineInputProvider inputProvider)
     {
             if(Pilot && pilotOrTurret)
             {
-                //rb = controlledObject.GetComponent<Rigidbody>();
-                rb = controlledRigidBody;
+                rb = controlledObject.GetComponent<Rigidbody>();
+                //rb = controlledRigidBody;
                 currentSpeed = 0;
                 playerInput.actions.FindActionMap("PilotingLeft").Enable();
                 isPilotingRocket = true;
@@ -125,6 +135,9 @@ public class Allcontrols : MonoBehaviour
                 Debug.Log("we initialized turret");
                 playerInput.actions.FindActionMap("TurretRight").Enable();
                 isShootingTurret = true;
+                turretbody = controlledObject;
+                inputProvider.PlayerIndex = playerIndex;
+                turretCameraTransform = inputProvider.transform;
                 return;
             }
 
@@ -204,7 +217,8 @@ public class Allcontrols : MonoBehaviour
     {
         steeringValue = where;
     }
-    #endregion
+    #endregion    
+    #region AimTurret
     public void onShoot(InputAction.CallbackContext context)
     {
         
@@ -224,4 +238,11 @@ public class Allcontrols : MonoBehaviour
         }
 
     }
+    /*
+    public void onAim(InputAction.CallbackContext context)
+    {
+        Aiming = context.ReadValue<Vector2>();
+    }
+    */
+    #endregion
 }
