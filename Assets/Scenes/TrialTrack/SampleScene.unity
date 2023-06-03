@@ -367,7 +367,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.95
+  m_fontSize: 20.6
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -783,7 +783,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.25
+  m_fontSize: 21.1
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.95
+  m_fontSize: 20.6
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2123,7 +2123,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.55
+  m_fontSize: 20.25
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2619,7 +2619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5259,7 +5259,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2710135760254598371, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: field of view
-      value: 40
+      value: 23.582022
       objectReference: {fileID: 0}
     - target: {fileID: 2710135760254598371, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: near clip plane
@@ -5275,11 +5275,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5815453713483323966, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6666732
+      value: 1.3916335
       objectReference: {fileID: 0}
     - target: {fileID: 5815453713483323966, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.6662599
+      value: -8.333334
       objectReference: {fileID: 0}
     - target: {fileID: 5815453713483323966, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5299,15 +5299,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328119852227014725, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -31829.426
       objectReference: {fileID: 0}
     - target: {fileID: 8328119852227014725, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6666732
+      value: -314.11414
       objectReference: {fileID: 0}
     - target: {fileID: 8328119852227014725, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.6662599
+      value: -6990.4805
       objectReference: {fileID: 0}
     - target: {fileID: 8328119852227014725, guid: 48844ea8fd00e824e85e9815fe2751a1, type: 3}
       propertyPath: m_LocalRotation.w
