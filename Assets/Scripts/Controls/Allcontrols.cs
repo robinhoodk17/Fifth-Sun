@@ -19,6 +19,8 @@ public class Allcontrols : MonoBehaviour
 
     [Header ("Turret Stats")]
     public float AimSesitivity;
+    [SerializeField] private float rotationSpeed = 16f;
+    [SerializeField] private float bulletMissDistance = 25f;
 
     
     [HideInInspector] public int playerIndex;
@@ -50,7 +52,10 @@ public class Allcontrols : MonoBehaviour
     private Vector2 Aiming;
     private GameObject turretbody;
     private Transform turretCameraTransform;
-    [SerializeField] private float rotationSpeed = 8f;
+    private Camera TurretCamera;
+    private Transform bulletSpawnPoint;
+    private Transform bulletParent;
+    public GameObject bulletPrefab;
 #endregion
 
     private void Awake()
@@ -101,23 +106,39 @@ public class Allcontrols : MonoBehaviour
     {
         if(isShootingTurret)
         {
-
+            Quaternion targetRotation = Quaternion.Euler(turretCameraTransform.eulerAngles.x, turretCameraTransform.eulerAngles.y, 0);
+            turretbody.transform.rotation = Quaternion.Lerp(turretbody.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             if(shooting)
             {
-                Debug.Log("shooting");
-            }
+                //Ray ray = TurretCamera.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+                RaycastHit hit;
+                GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity, bulletParent);
+                BulletPrefab bulletController = bullet.GetComponent<BulletPrefab>();
+
+                //if(Physics.Raycast(TurretCamera.ViewportPointToRay (new Vector3(0.5f,0.5f,0)), out hit, Mathf.Infinity))
+                //if(Physics.Raycast(ray, out hit))
+                if(Physics.Raycast(turretCameraTransform.position, turretCameraTransform.forward, out hit, Mathf.Infinity))
+                {
+                    Debug.DrawLine (turretCameraTransform.position, hit.point,Color.red);
+                    bulletController.target = hit.point;
+                    bulletController.hit = true;
+                    Debug.Log(hit.collider.name);
+                }
+                else
+                {
+                    bulletController.target = turretCameraTransform.position + turretCameraTransform.forward * bulletMissDistance;
+                    bulletController.hit = true; 
+                }
             /*
             Vector3 currentrotation = turretbody.transform.localRotation.ToEulerAngles();
             turretbody.transform.localRotation = Quaternion.Euler(currentrotation + new Vector3(-Aiming.y * AimSesitivity * Time.deltaTime, -Aiming.x * AimSesitivity * Time.deltaTime, 0f));
             */
-            Quaternion targetRotation = Quaternion.Euler(turretCameraTransform.eulerAngles.x, turretCameraTransform.eulerAngles.y, 0);
-            turretbody.transform.rotation = Quaternion.Lerp(turretbody.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
 
         }
-
     }
     //we call this method from the rocketInitializer script
-    public void InitializeTrackControls(GameObject controlledObject, bool pilotOrTurret, CinemachineInputProvider inputProvider)
+    public void InitializeTrackControls(GameObject controlledObject, bool pilotOrTurret, CinemachineInputProvider inputProvider, Transform bulletSpawn, Transform parentofBullet, Camera turretCamera)
     {
             if(Pilot && pilotOrTurret)
             {
@@ -137,7 +158,10 @@ public class Allcontrols : MonoBehaviour
                 isShootingTurret = true;
                 turretbody = controlledObject;
                 inputProvider.PlayerIndex = playerIndex;
-                turretCameraTransform = inputProvider.transform;
+                turretCameraTransform = turretCamera.transform;
+                TurretCamera = turretCamera;
+                bulletSpawnPoint = bulletSpawn;
+                bulletParent = parentofBullet;
                 return;
             }
 
@@ -229,7 +253,7 @@ public class Allcontrols : MonoBehaviour
 
         if(context.performed)
         {
-            shooting = true;
+            shooting = false;
         }
 
         if(context.canceled)
