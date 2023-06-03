@@ -670,7 +670,7 @@ MonoBehaviour:
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1478772404}
         m_TargetAssemblyTypeName: PlayerConfigurationManager, Assembly-CSharp
         m_MethodName: HandlePlayerJoin
         m_Mode: 0
