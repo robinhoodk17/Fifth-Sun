@@ -238,6 +238,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 803d3de7-2a6e-4d02-88b0-21fb5396c8a7
     m_ActionName: TurretRight/Aim[/XInputControllerWindows/rightStick,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6855309699073941406}
+        m_TargetAssemblyTypeName: Allcontrols, Assembly-CSharp
+        m_MethodName: Tilting
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cffed364-adb1-4736-943c-de3409530478
+    m_ActionName: PilotingLeft/Tilt[/XInputControllerWindows/rightStick,/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: PlayerSelect
@@ -289,15 +305,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44c5523e96a157408494905015c2e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledGameObject: {fileID: 0}
   playerSpeed: 3
   acceleration: 100
+  tiltSpeed: 100
   brakeSpeed: 200
-  RightLeftTurnSpeed: 70
-  UpDownTurnSpeed: 70
-  TopForwardSpeed: 1000
+  RightLeftTurnSpeed: 75
+  UpDownTurnSpeed: 100
+  TopForwardSpeed: 2000
   AimSesitivity: 10
-  rotationSpeed: 8
+  rotationSpeed: 20
   bulletMissDistance: 25
+  fireRate: 1
   playerIndex: 0
   Turret: 0
   Pilot: 0

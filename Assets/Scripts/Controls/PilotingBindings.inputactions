@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Tilt",
+                    "type": "Value",
+                    "id": "cffed364-adb1-4736-943c-de3409530478",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -49,6 +58,17 @@
                     "name": "",
                     "id": "e6a657a1-8d20-465b-b75c-2ee11cc7365b",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b1b2c0b-ccea-4580-a713-de45ec50f0ae",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -135,67 +155,78 @@
                 },
                 {
                     "name": "",
+                    "id": "bf3a258a-317b-41f5-950d-9031602bee12",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a251ab33-b193-4ecb-aaf7-e962e378c40f",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "AxisDeadzone(min=0.1,max=1)",
+                    "processors": "StickDeadzone(min=0.1,max=1)",
                     "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "47a828b1-0cc0-48e0-b74c-258b7399a150",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95fba36e-19bc-4f92-a546-11f226e57488",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone(min=0.1,max=1)",
+                    "groups": "Gamepad",
+                    "action": "Tilt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
-                    "id": "4ddf05be-6b0b-4720-9b9e-0c3f5fbd6d7f",
+                    "id": "3d095c6e-2e37-4584-b1ba-232c78692d33",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Tilt",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "972ad2fb-ce02-417d-86e3-2b8a8cee11ac",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "840e4b68-46ae-42b0-8b40-8d58c938fdd2",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "left",
-                    "id": "98614dcf-2f29-40a0-a540-7d34db8419ac",
+                    "id": "388f4df0-4d2f-43a7-96d1-642114657ac4",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Move",
+                    "action": "Tilt",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "ff746e93-08d8-40d1-aa7f-13f118c11eb0",
+                    "id": "a96bc930-04ce-4752-b0b4-27b5aa823e79",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Move",
+                    "groups": "",
+                    "action": "Tilt",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -249,22 +280,22 @@
                 },
                 {
                     "name": "",
-                    "id": "ee189990-05c3-4de6-8012-181173c7f4e7",
-                    "path": "<Gamepad>/rightStick",
+                    "id": "49898580-32ac-4ab4-93ac-eb565636625a",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "StickDeadzone(min=0.1,max=1)",
-                    "groups": "Gamepad",
+                    "processors": "NormalizeVector2",
+                    "groups": "Keyboard",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "49898580-32ac-4ab4-93ac-eb565636625a",
-                    "path": "<Mouse>/delta",
+                    "id": "ee189990-05c3-4de6-8012-181173c7f4e7",
+                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
+                    "processors": "StickDeadzone(min=0.1,max=1)",
+                    "groups": "Gamepad",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false

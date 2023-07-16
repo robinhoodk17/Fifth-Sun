@@ -19,7 +19,7 @@ public class Piloting : MonoBehaviour
     //We initialize from the rocketInitializer
     public void CustomStart()
     {
-        controlScript = GetComponent<MoveRocketWithVelocity>();
+        controlScript = GetComponentInChildren<MoveRocketWithVelocity>();
         AIWaypoints = GameObject.FindGameObjectsWithTag("AI Waypoint");
         Active = true;
         foreach (GameObject waypoint in AIWaypoints)

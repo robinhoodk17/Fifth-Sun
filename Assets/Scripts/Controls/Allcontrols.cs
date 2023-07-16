@@ -7,11 +7,13 @@ using Cinemachine;
 
 public class Allcontrols : MonoBehaviour
 {
+    [HideInInspector] public GameObject controlledGameObject;
     [Header("PlayerAssign stats")]
     public float playerSpeed = 3.0f;
 
     [Header("Rocket stats")]
     public float acceleration;
+    public float tiltSpeed;
     public float brakeSpeed;
     public float RightLeftTurnSpeed;
     public float UpDownTurnSpeed;
@@ -21,6 +23,7 @@ public class Allcontrols : MonoBehaviour
     public float AimSesitivity;
     [SerializeField] private float rotationSpeed = 16f;
     [SerializeField] private float bulletMissDistance = 25f;
+    [SerializeField] public float fireRate = .1f;
 
     
     [HideInInspector] public int playerIndex;
@@ -45,6 +48,7 @@ public class Allcontrols : MonoBehaviour
     private Rigidbody rb;
     private bool braking = false;
     private Vector2 steeringValue;
+    private Vector2 tiltValue;
     private float currentSpeed;
 #endregion
 #region ShootingTurretVariables
@@ -56,6 +60,8 @@ public class Allcontrols : MonoBehaviour
     private Transform bulletSpawnPoint;
     private Transform bulletParent;
     public GameObject bulletPrefab;
+    private float timeOfLastBullet;
+    private Collider rocketCollider;
 #endregion
 
     private void Awake()
@@ -66,9 +72,10 @@ public class Allcontrols : MonoBehaviour
         playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerConfigurationManager>();
         controller = gameObject.GetComponent<CharacterController>();
         SelectionPhase = true;
+        timeOfLastBullet = Time.time;
     }
 
-
+//We pilot the rocket from here and also select characters from here
     void FixedUpdate()
     {
         if(SelectionPhase)
@@ -93,36 +100,39 @@ public class Allcontrols : MonoBehaviour
 
         if(isPilotingRocket)
         {
-            rb.transform.Rotate(-steeringValue.y * UpDownTurnSpeed * Time.deltaTime, steeringValue.x * RightLeftTurnSpeed * Time.deltaTime, 0f, Space.Self);
+            rb.transform.Rotate(-steeringValue.y * UpDownTurnSpeed * Time.deltaTime, steeringValue.x * RightLeftTurnSpeed * Time.deltaTime, -tiltValue.x * tiltSpeed * Time.deltaTime, Space.Self);
             currentSpeed = rb.velocity.magnitude;
             if(braking){currentSpeed -= brakeSpeed*Time.deltaTime;}
             if(accelerating && !braking && currentSpeed < TopForwardSpeed){currentSpeed += acceleration*Time.deltaTime;}
             rb.velocity = rb.transform.forward * currentSpeed;
+
             
         }
     }
-
+    
+    //we aim the turret from here
     void LateUpdate()
     {
         if(isShootingTurret)
         {
             Quaternion targetRotation = Quaternion.Euler(turretCameraTransform.eulerAngles.x, turretCameraTransform.eulerAngles.y, 0);
             turretbody.transform.rotation = Quaternion.Lerp(turretbody.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            if(shooting)
+            if(shooting && Time.time - timeOfLastBullet > fireRate)
             {
                 //Ray ray = TurretCamera.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+                timeOfLastBullet = Time.time;
                 RaycastHit hit;
                 GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity, bulletParent);
                 BulletPrefab bulletController = bullet.GetComponent<BulletPrefab>();
+                bulletController.CustomStart(controlledGameObject, rocketCollider);
 
                 //if(Physics.Raycast(TurretCamera.ViewportPointToRay (new Vector3(0.5f,0.5f,0)), out hit, Mathf.Infinity))
                 //if(Physics.Raycast(ray, out hit))
                 if(Physics.Raycast(turretCameraTransform.position, turretCameraTransform.forward, out hit, Mathf.Infinity))
                 {
-                    Debug.DrawLine (turretCameraTransform.position, hit.point,Color.red);
+                    Debug.DrawLine (bulletSpawnPoint.position, hit.point,Color.red);
                     bulletController.target = hit.point;
                     bulletController.hit = true;
-                    Debug.Log(hit.collider.name);
                 }
                 else
                 {
@@ -138,7 +148,7 @@ public class Allcontrols : MonoBehaviour
         }
     }
     //we call this method from the rocketInitializer script
-    public void InitializeTrackControls(GameObject controlledObject, bool pilotOrTurret, CinemachineInputProvider inputProvider, Transform bulletSpawn, Transform parentofBullet, Camera turretCamera)
+    public void InitializeTrackControls(GameObject controlledObject, bool pilotOrTurret, CinemachineInputProvider inputProvider, Transform bulletSpawn, Transform parentofBullet, Camera turretCamera, Collider rocketBodyCollider, GameObject cinemachineInputProvider)
     {
             if(Pilot && pilotOrTurret)
             {
@@ -147,7 +157,7 @@ public class Allcontrols : MonoBehaviour
                 currentSpeed = 0;
                 playerInput.actions.FindActionMap("PilotingLeft").Enable();
                 isPilotingRocket = true;
-                GameObject.FindGameObjectWithTag("AI").GetComponent<Piloting>().HasPilot = true;
+                GameObject.FindGameObjectWithTag("AI").GetComponentInChildren<Piloting>().HasPilot = true;
                 return;
             }
 
@@ -162,6 +172,8 @@ public class Allcontrols : MonoBehaviour
                 TurretCamera = turretCamera;
                 bulletSpawnPoint = bulletSpawn;
                 bulletParent = parentofBullet;
+                rocketCollider = rocketBodyCollider;
+                cinemachineInputProvider.GetComponent<CinemachineInputProvider>().PlayerIndex = playerIndex;
                 return;
             }
 
@@ -241,6 +253,16 @@ public class Allcontrols : MonoBehaviour
     {
         steeringValue = where;
     }
+
+    public void Tilting(InputAction.CallbackContext context)
+    {
+        tiltValue = context.ReadValue<Vector2>();
+    }
+
+    public void Tilting(Vector2 where)
+    {
+        tiltValue = where;
+    }
     #endregion    
     #region AimTurret
     public void onShoot(InputAction.CallbackContext context)
@@ -253,7 +275,7 @@ public class Allcontrols : MonoBehaviour
 
         if(context.performed)
         {
-            shooting = false;
+            shooting = true;
         }
 
         if(context.canceled)
